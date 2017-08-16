@@ -90,15 +90,16 @@
 \email{elfanfa@ucar.edu}
 
 \begin{abstract}
-We present results on the scalability and performance of an open-source, \gls{caf} \gls{mini-app} that solves
-several parallel, numerical algorithms known to dominate the execution of the \gls{icar}~\cite{gutmann2016intermediate}.
-The solver employs standard Fortran 2008 features and includes several Fortran 2008 implementations of the collective
+We examine the scalability and performance of an open-source, \gls{caf} \gls{mini-app} that solves
+several parallel, numerical algorithms known to dominate the execution of the \gls{icar}~\cite{gutmann2016intermediate} model,
+a package developed at the \gls{ncar}.
+The \gls{mini-app} employs standard Fortran 2008 features and includes several Fortran 2008 implementations of the collective
 subroutines defined in the Committee Draft of the upcoming Fortran 2015 standard.  The ability of \gls{caf} to run atop various
-communication layers and the increasing compiler support for \gls{caf} facilitated initial evaluations of several compliers,
+communication layers and the increasing availability of \gls{caf} compilers facilitated evaluating several compilers,
 runtime libraries and hardware platforms.  Results are presented for the GNU and Cray compilers, each of which offers
 different parallel runtime libraries employing one or more communication layers, including \gls{mpi}, OpenSHMEM, and proprietary
-alternatives.  We studied performance on both multi- and many-core processors running on distributed-memory systems.  The
-results of initial simulations suggest promising scaling behavior across a range of hardware, compiler, and runtime choices
+alternatives.  We studied performance on multi- and many-core processors in distributed-memory systems.  The
+results show promising scaling behavior across a range of hardware, compiler, and runtime choices
 on platforms ranging up to 100,000 cores.
 \end{abstract}
 
