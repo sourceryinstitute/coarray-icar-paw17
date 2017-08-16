@@ -46,7 +46,7 @@ processes over North America as simulated by \gls{icar}.
 \end{figure*}
 
 \subsection{Objectives}
-The goals of this work are to investigate and evaluate several software and hardware alternatives for compiling and linking the
+The goal of this work is to evaluate several alteranatives for compiling, linking, and executing the
 same \gls{mini-app} \gls{caf} source code using the following technologies:
 \begin{itemize}
   \item \gls{mpi}~\cite{mpiforum2016mpi} and OpenSHMEM~\cite{chapman2010introducing} communication layers,
@@ -60,7 +60,7 @@ Additionally we show performance differences between two one-sided data access p
   \item Puts: an image that is able to provide data proactively puts the data into memory managed by
         a receiving image without the receiving image's active involvement.
 \end{enumerate}
-This study is a work-in-progress that will guide future decisions around the choice of compiler, communication
+Our results will inform our future decisions around the choice of compiler, communication
 layer, platform, and data access patterns.
 
 \section{Methodology}
@@ -79,27 +79,39 @@ and a \gls{caf} ``get'' operation, in which one-sided blocking communication is 
 
 \subsection{Compilers, runtimes, and hardware}
 
-We performed the experiments presented here on two supercomputers at at the National Energy Research Scientific Computing Center (NERSC),
-located at Lawrence Berkeley National Laboratory and one supercomputer at the National Center for Atmospheric Research (NCAR).
-One system is ``Edison,'' a Cray XC30 featuring 5586 nodes with two sockets of 12-core Intel Xeon Processor E5-2695 v2 (``Ivy Bridge''), running at \num{2.4}~\si{\giga\hertz}.
-The second system is ``Cori,'' a Cray XC40 which contains \num{12076} compute nodes, spanning two architectures. \num{2388} nodes each have two sockets of 16-core Intel Xeon Processor E5-2698 v3 (``Haswell'') operating at \num{2.3}~\si{\giga\hertz}; the other \num{9688} nodes are single-socket, 68-core Intel Xeon Phi Processor 7250 (``Knights Landing'') at \num{1.4}~\si{\giga\hertz}.
+We performed the experiments presented here on two supercomputers at \gls{nersc},
+located at \gls{lbnl}, and one supercomputer at \gls{ncar}.
+One \gls{lbnl} system is ``Edison,'' a Cray XC30 featuring 5586 nodes with two sockets of 12-core Intel Xeon Processor E5-2695 v2 (``Ivy Bridge''), running at \num{2.4}~\si{\giga\hertz}.
+The second \gls{lbnl} system is ``Cori,'' a Cray XC40 which contains \num{12076} compute nodes, spanning two architectures. \num{2388} nodes each have two sockets of 16-core Intel Xeon Processor E5-2698 v3 (``Haswell'') operating at \num{2.3}~\si{\giga\hertz}; the other \num{9688} nodes are single-socket, 68-core Intel Xeon Phi Processor 7250 (``Knights Landing'') at \num{1.4}~\si{\giga\hertz}.
 Both Edison and Cori feature the same ``Aries'' interconnect, with a dragonfly topology.
 All measurements reported here which ran on Cori were executed on the Xeon Phi nodes, running in the ``quadrant`` NUMA configuration, with the MCDRAM configured as a transparent cache to the DDR4 memory.
-The third system is ``Cheyenne,'' an SGI ICE XA Cluster with \num{4032} compute nodes, with two sockets of 18-core Intel Xeon Processor E5-2697 v4 (``Broadwell''), running at \num{2.3}~\si{\giga\hertz}.
+
+The \gls{ncar} system is ``Cheyenne,'' an SGI ICE XA Cluster with \num{4032} compute nodes, with two sockets of 18-core Intel Xeon Processor E5-2697 v4 (``Broadwell''), running at \num{2.3}~\si{\giga\hertz}.
 Cheyenne uses a Mellanox EDR infiniband interconnect with a partial 9D Enhanced Hypercube single-plane topology.
-We compiled the ICAR code on both systems at NERSC using version 8.6.0 of the Cray Fortran compiler, and at NCAR using version 6.3 of the gfortran compiler.
-gfortran uses the opencoarrays library to provide coarray fortran support, and we tested the code using both SGI MPT MPI and OpenSHMEM implementations.
-In all runs, we ran the code with one image per physical core (68 images per Xeon Phi node on Cori, 24 images per Xeon node on Edison, 36 images per node on Cheyenne).
+We compiled coarray-\gls{icar} on the \gls{nersc} systems using the Cray Fortran compiler version 8.6.0.  We compiled
+at \gls{ncar} using of the \gls{gcc} Fortran (gfortran) compiler front end version 6.3, which uses the
+OpenCoarrays \gls{abi}~\cite{fanfarillo2014opencoarrays} for to support \gls{caf}.  We tested two OpenCoarrays parallel runtime libraries:
+\begin{enumerate}
+  \item The default \gls{mpi} library using the SGI MPT \gls{mpi},
+  \item The openshmem branch using OpenSHMEM.
+\end{enumerate}
+We distributed \gls{caf} images as follows:
+\begin{itemize}
+  \item 68 images per Xeon Phi node on Cori,
+  \item 24 images per Xeon node on Edison, and
+  \item 36 images per node on Cheyenne.
+\end{itemize}
+corresponding to one image per physical core in each case.
 
 \section{Discussion of Results}
 Results with two different domain sizes (500 x 500 and 2000 x 2000 grid cells) are presented in figure~\ref{fig1-2} for simulations performed on Cheyenne.
-These tests compare scaling with blocking ``get'' and non-blocking ``put'' operations, and compare scaling using MPI or OpenSHMEM for communication.
-The differences between MPI and OpenSHMEM are minor, with OpenSHMEM performing only slightly better.
+These tests compare scaling with blocking ``get'' and non-blocking ``put'' operations, and compare scaling using \gls{mpi} or OpenSHMEM for communication.
+The differences between \gls{mpi} and OpenSHMEM are minor, with OpenSHMEM performing only slightly better.
 However, the differences between the ``get'' and ``put'' operations are substantial.
 For the 500x500 domain, ``puts'' scale well to 1800 cores, then scale poorly to \num{3600} cores;
 however, ``gets'' only scale well to \num{504} cores, scale poorly to \num{1224}, an no further improvement comes from up to \num{3600} cores.
-Note MPI ``gets'' are not reported because a problem with the MPI implementation makes them several orders of magnitude less efficient,
-similarly, MPI ``puts'' results are not reported beyond \num{1800} cores because a problem in the MPI implementation caused memory allocations to become a bottleneck at higher process counts.
+Note \gls{mpi} ``gets'' are not reported because a problem with the \gls{mpi} implementation makes them several orders of magnitude less efficient,
+similarly, \gls{mpi} ``puts'' results are not reported beyond \num{1800} cores because a problem in the \gls{mpi} implementation caused memory allocations to become a bottleneck at higher process counts.
 For the 2000x2000 domain, the same pattern is observed but scaling of ``puts'' remains strong up to 3600 cores;
 scaling of ``gets'' continuous, albeit poorly, to \num{3600} cores.
 
