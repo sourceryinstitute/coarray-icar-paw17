@@ -1,6 +1,6 @@
 \section{Introduction}
 \subsection{Motivation and Background}
-Since the Fortran 2008 standard was published in 2010~\cite{iso2010information}, a handful of studies in the open literature
+Since the Fortran 2008 standard was published in 2010~\cite{iso2010information}, a handful of published studies
 have provided encouraging assessments of Fortran's intrinsic parallel programming model, \gls{caf}, in research
 applications running at scale~\cite{preissl2011multithreaded,garain2015comparing,mozdzynski2015partitioned}.   One of the
 most attractive features of \gls{caf} is the ability to express parallel algorithms once within the confines of a single
@@ -46,13 +46,29 @@ processes over North America as simulated by \gls{icar}.
 \end{figure*}
 
 \subsection{Objectives}
+The goals of this work are to investigate and evaluate several software and hardware alternatives for compiling and linking the
+same \gls{mini-app} \gls{caf} source code using the following technologies:
+\begin{itemize}
+  \item \gls{mpi}~\cite{mpiforum2016mpi} and OpenSHMEM~\cite{chapman2010introducing} communication layers,
+  \item \gls{gcc} and Cray compilers, and
+  \item Multi- and many-core processors.
+\end{itemize}
+Additionally we show performance differences between two one-sided data access patterns:
+\begin{enumerate}
+  \item Gets: an image that needs data proactively gets the data from memory managed by a providing
+        image without the providing image's active involvement, and
+  \item Puts: an image that is able to provide data proactively puts the data into memory managed by
+        a receiving image without the receiving image's active involvement.
+\end{enumerate}
+This study is a work-in-progress that will guide future decisions around the choice of compiler, communication
+layer, platform, and data access patterns.
 
 \section{Methodology}
-\subsection{Numerical algorithms}
-The core numerics of \gls{icar} implemented here are the Thompson Eidhammer microphysics parameterization~\cite{Thompson:2014cw} and the first order MP-DATA advection algorithm~\cite{Smolarkiewicz:1998il}.
+\subsection{Physics and numerics}
+The coarray-\gls{icar} implemention employed here uses the Thompson Eidhammer microphysics parameterization~\cite{Thompson:2014cw} and the first-order MP-DATA advection algorithm~\cite{Smolarkiewicz:1998il}.
 The microphysics parameterization requires 11 primary input variables (e.g.\ air pressure, water vapor, cloud water), 9 of which are modified by the parameterization and advected throughout the domain requiring communication between processes.
 
-The test case implemented here uses a classical idealized hill case.
+The test case implemented here uses a classical, idealized hill.
 An idealized 1000 m high mountain is generated in the middle of the domain defined by a sine curve.
 The air is initialized to near 100\% relative humidity, and a background wind of approximately 10 m s$^{-1}$ is specified.
 
