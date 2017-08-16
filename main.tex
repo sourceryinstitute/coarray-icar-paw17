@@ -22,10 +22,10 @@
 
 
 % DOI
-\acmDOI{xx.xxx/xxx_x}
+%\acmDOI{xx.xxx/xxx_x}
 
 % ISBN
-\acmISBN{xxx-xxxx-xx-xxx/xx/xx}
+%\acmISBN{xxx-xxxx-xx-xxx/xx/xx}
 
 %Conference
 \acmConference[PAW17]{PGAS Applications Workshop}{November 2017}{Denver, Colorado USA}
@@ -93,12 +93,12 @@
 We examine the scalability and performance of an open-source, \gls{caf} \gls{mini-app} that solves
 several parallel, numerical algorithms known to dominate the execution of the \gls{icar}~\cite{gutmann2016intermediate} model,
 a package developed at the \gls{ncar}.
-The \gls{mini-app} employs standard Fortran 2008 features and includes several Fortran 2008 implementations of the collective
+The \gls{mini-app} uses standard Fortran 2008, including several Fortran 2008 implementations of the collective
 subroutines defined in the Committee Draft of the upcoming Fortran 2015 standard.  The ability of \gls{caf} to run atop various
-communication layers and the increasing availability of \gls{caf} compilers facilitated evaluating several compilers,
+communication layers and the increasing \gls{caf} compiler availability facilitated evaluating several compilers,
 runtime libraries and hardware platforms.  Results are presented for the GNU and Cray compilers, each of which offers
 different parallel runtime libraries employing one or more communication layers, including \gls{mpi}, OpenSHMEM, and proprietary
-alternatives.  We studied performance on multi- and many-core processors in distributed-memory systems.  The
+alternatives.  We studied performance on multi- and many-core processors in distributed memory.  The
 results show promising scaling behavior across a range of hardware, compiler, and runtime choices
 on platforms ranging up to 100,000 cores.
 \end{abstract}
@@ -125,7 +125,7 @@ on platforms ranging up to 100,000 cores.
 \ccsdesc[500]{Software and its engineering~Parallel programming languages}
 \ccsdesc[300]{Applied computing~Environmental sciences}
 
-\keywords{coarray Fortran, computational hydrometeorology, parallel programming}
+\keywords{coarray Fortran, computational hydrometeorology}
 
 \maketitle
 
