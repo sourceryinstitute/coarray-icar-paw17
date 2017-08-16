@@ -1,25 +1,25 @@
 \section{Introduction}
 \subsection{Motivation and Background}
-Since the Fortran 2008 standard was published in 2010~\cite{iso2010fortran}, a handful of studies in the open literature
-have provided encouraging assessments of Fortran's intrinsic parallel programming model, \gls{caf}, running in research
+Since the Fortran 2008 standard was published in 2010~\cite{iso2010information}, a handful of studies in the open literature
+have provided encouraging assessments of Fortran's intrinsic parallel programming model, \gls{caf}, in research
 applications running at scale~\cite{preissl2011multithreaded,garain2015comparing,mozdzynski2015partitioned}.   One of the
 most attractive features of \gls{caf} is the ability to express parallel algorithms once within the confines of a single
-language standard without embedding the use of compiler directives or communication layers defined outside the Fortran
-Fortran language standard (e.g., no \gls{mpi} or OpenMP.  In theory, this should leave the choice of communication layers
-as a link-time decision.  Ideally, an application developer writes a standard Fortran-only application, compiles it with any
+language standard without embedding compiler directives or referencing communication layers that are not part of the
+language standard (e.g., no \gls{mpi} or OpenMP).  In theory, this should leave the choice of communication layers
+as a link-time decision.  Ideally, an application developer writes a standard, Fortran-only application, compiles it with any
 standard-conforming compiler, and possibly reserves the option to incorporate any one (or more) of several communication layers
 at link-time.
 
-Such flexibility poses the computing equivalent of what food author Michael Pollen termed ``The Omnivore's Dilemma:'' if I
+Such flexibility poses the computing equivalent of what food author Michael Pollan termed ``The Omnivore's Dilemma:'' if I
 belong to a species that owes some of its evolutionary advantage to being able to eat a wide variety of foods, what food is
-best for me to eat?  Similarly, if I can express my parallel algorithm once using \gls{caf} and then consume cycles atop a
+best for me to eat?~\cite{pollan2006omnivore}  Similarly, if I can express my parallel algorithm once using \gls{caf} and then consume cycles atop a
 multitude of software stacks and hardware platforms, where best to consume cycles and using which supporting software stack?
-Here we report the results of an initial study of the current options for compiling, linking, and executing a \gls{mini-app}
-designed to be representative of the parallel numerical algorithms and physics employed in the \gls{icar} being developed at
-the \gls{ncar}.
+Here we report the results of an initial study of several current options for compiling, linking, and executing a \gls{mini-app}
+designed to be representative of the parallel numerical algorithms and physics employed in \gls{icar}.
 
 \gls{icar} simulates the motion of the atmosphere at kilometer length scales and produces flow patterns with a fidelity that is
-attractive to the hydrology community, which studies surface water.  The animation in Figure~\ref{figure:icar} depicts atmospheric processes over North America.
+attractive to the hydrology community, which studies surface water.  The animation in Figure~\ref{figure:icar} depicts atmospheric
+processes over North America as simulated by \gls{icar}.
 
 \begin{figure}
    \vspace{-18pt}
