@@ -26,7 +26,7 @@ processes over North America as simulated by \gls{icar}.
    % Animate frames at 7 fps created via 'ffmpeg -i qvmovie.mp4 -r 7 frame%d.pngr', add control buttons,
    % and automatically play when the page is viewed:
    \vbox{\hspace{-24pt}
-   %\animategraphics[width=1.1\columnwidth,controls,autoplay]{7}{figures/icar/frames/frame}{1}{30}
+   %\animategraphics[width=\columnwidth,controls,autoplay]{7}{figures/icar/frames/frame}{1}{30}
    \includegraphics[width=1.1\columnwidth]{figures/icar/frames/frame22.png}
    }
    \caption{An animation of atmospheric flow of water vapor (blues) and resulting precipitation (green to red) simulated by the \href{https://github.com/gutmann/icar}{\gls{icar}}. {\it For the animated version of this graphic, please access https://github.com/sourceryinstitute/coarray-icar-paw17/releases/download/1.0/main.pdf and use Adobe Acrobat Reader 7.0 or later.}
@@ -60,6 +60,8 @@ Additionally we show performance differences between two one-sided data access p
   \item Puts: an image that is able to provide data proactively puts the data into memory managed by
         a receiving image without the receiving image's active involvement.
 \end{enumerate}
+Fortran semantics necessitates that gets block.  Puts are non-blocking.
+
 Our results will inform our future decisions around the choice of compiler, communication
 layer, platform, and data access patterns.
 
@@ -104,29 +106,31 @@ We distributed \gls{caf} images as follows:
 corresponding to one image per physical core in each case.
 
 \section{Discussion of Results}
-Results with two different domain sizes (500 x 500 and 2000 x 2000 grid cells) are presented in figure~\ref{fig1-2} for simulations performed on Cheyenne.
-These tests compare scaling with blocking ``get'' and non-blocking ``put'' operations, and compare scaling using \gls{mpi} or OpenSHMEM for communication.
+Figure~\ref{fig1-2} shows results with two domain sizes (500 x 500 and 2000 x 2000 grid cells) running on Cheyenne.
+These tests compare scaling with blocking ``get'' and non-blocking ``put'' operations, and compare scaling using \gls{mpi} or OpenSHMEM.
 The differences between \gls{mpi} and OpenSHMEM are minor, with OpenSHMEM performing only slightly better.
 However, the differences between the ``get'' and ``put'' operations are substantial.
 For the 500x500 domain, ``puts'' scale well to 1800 cores, then scale poorly to \num{3600} cores;
-however, ``gets'' only scale well to \num{504} cores, scale poorly to \num{1224}, an no further improvement comes from up to \num{3600} cores.
-Note \gls{mpi} ``gets'' are not reported because a problem with the \gls{mpi} implementation makes them several orders of magnitude less efficient,
-similarly, \gls{mpi} ``puts'' results are not reported beyond \num{1800} cores because a problem in the \gls{mpi} implementation caused memory allocations to become a bottleneck at higher process counts.
-For the 2000x2000 domain, the same pattern is observed but scaling of ``puts'' remains strong up to 3600 cores;
-scaling of ``gets'' continuous, albeit poorly, to \num{3600} cores.
+however, ``gets'' only scale well to \num{504} cores, scale poorly to \num{1224}, and no further improvement comes from up to \num{3600} cores.
 
-Results across multiple compilers, machines, and architectures are presented in figure~\ref{fig3-4} (top).
+\gls{mpi} ``gets'' are not reported because a problem with the \gls{mpi} implementation makes them several orders of magnitude less efficient.
+Similarly, \gls{mpi} ``put'' results are not reported beyond \num{1800} cores because a problem in the \gls{mpi} implementation caused memory
+allocations to become a bottleneck at higher process counts.
+For the 2000x2000 domain, the same pattern is observed but scaling of ``puts'' remains strong up to 3600 cores; whereas
+scaling of ``gets'' continues, albeit poorly, to \num{3600} cores.
+
+Figure~\ref{fig3-4} (top) depicts results across multiple compilers, machines, and architectures.
 In this case, only ``puts'' are tested, and only for the 2000x2000 domain.
-The GNU compiler was used on Cheyenne (Xeons), and the Cray compiler was used on both Edison (Xeons) and Cori (KNL).
+The GNU compiler was used on Cheyenne (Xeons). The Cray compiler was used on Edison (Xeons) and Cori (KNL).
 To aid interpretation, the scaling results are reported as a fraction of the ideal scaling for each machine in the top left.
 These results show that the Cray compiler+system scales better than the gfortran+SGI system,
 with 75\% efficiency at >10k cores, while on Cheyenne, only 55\% of ideal was achieved.
 This also shows that the KNL system scales well out to large core counts (60\% ideal with \num{19200} cores),
-but that the total runtimes are significantly slower then the equivalent runtimes on Xeons (top right).
-The KNL performance may be improved in the future by implementing OpenMP threaded parallelism within a node.
+but that the total runtimes are significantly slower than the equivalent runtimes on Xeons (top right).
+The KNL performance might be improved in the future by implementing OpenMP threaded parallelism within a node.
 
 To further test the scaling performance in the best case, ``puts'' on Cray Xeons, a limited set of tests were performed up to nearly \num{100000} cores (fig.~\ref{fig3-4} bottom).
-This system scaled well to over \num{10000} cores, and continued scaling with nearly 50\% of single node efficiency obtained at \num{98304} cores.
+This system scaled well to over \num{10000} cores, and continued scaling with nearly 50\% of the single-node efficiency at \num{98304} cores.
 
 \section{Conclusions}
 We have presented scaling and performance analysis using \gls{caf} on different architectures, compilers, and communications backends.
