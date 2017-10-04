@@ -41,12 +41,14 @@ processes over North America as simulated by \gls{icar}.
 
 \begin{figure*}
   \includegraphics[width=\textwidth]{figures/fig3_cross_platform.png}
+  \vspace{-6pt}
   \includegraphics[width=\textwidth]{figures/fig4_extreme_scaling.png}
    \caption{Cross-platform and extreme scaling results using \href{https://github.com/gutmann/coarray_icar}{Coarray ICAR}.\label{fig3-4}}
+   \vspace{-6pt}
 \end{figure*}
 
 \subsection{Objectives}
-The goal of this work is to evaluate several alteranatives for compiling, linking, and executing the
+The goal of this work is to evaluate several alternatives for compiling, linking, and executing the
 same \gls{mini-app} \gls{caf} source code using the following technologies:
 \begin{itemize}
   \item \gls{mpi}~\cite{mpiforum2016mpi} and OpenSHMEM~\cite{openshmem2016} communication layers,
@@ -91,7 +93,7 @@ All measurements reported here which ran on Cori were executed on the Xeon Phi n
 The \gls{ncar} system is ``Cheyenne,'' an SGI ICE XA Cluster with \num{4032} compute nodes, with two sockets of 18-core Intel Xeon Processor E5-2697 v4 (``Broadwell''), running at \num{2.3}~\si{\giga\hertz}.
 Cheyenne uses a Mellanox EDR infiniband interconnect with a partial 9D Enhanced Hypercube single-plane topology.
 We compiled coarray-\gls{icar} on the \gls{nersc} systems using the Cray Fortran compiler version 8.6.0.  We compiled
-at \gls{ncar} using of the \gls{gcc} Fortran (gfortran) compiler front end version 6.3, which uses the
+at \gls{ncar} using the Fortran front end of \gls{gcc} version 6.3, which uses the
 OpenCoarrays \gls{abi}~\cite{fanfarillo2014opencoarrays} for to support \gls{caf}.  We tested two OpenCoarrays parallel runtime libraries:
 \begin{enumerate}
   \item The default \gls{mpi} library using the SGI MPT \gls{mpi},
@@ -226,6 +228,6 @@ It is expected that with moderate performance optimizations and a larger total p
   and the Research Applications Laboratory of \gls{ncar} for travel support for a visit during which much of
   the work presented in this paper was performed.
 
-  This work as funded in part through a contract from the U.S. Army Corps of Engineers.
+  This work was funded in part through a contract from the U.S. Army Corps of Engineers.
 
 \end{acks}
