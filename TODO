@@ -1,0 +1,5 @@
+- write 2-sided MPI version of ICAR (dr, af)
+- test pure coarrays vs coarrays+OpenMP (eg, bcf)
+- Intel Fortran + Intel MPI + Aries (OFI?) (bcf)
+- tune for KNL? (eg)
+- figure out why gfortran + OC is so slow on KNL (bcf)
