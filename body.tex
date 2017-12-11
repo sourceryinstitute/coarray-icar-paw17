@@ -53,7 +53,7 @@ simulations over North America.
 \end{figure*}
 
 \subsection{Objectives}
-This evaluates alternatives for compiling, linking, and executing one
+This paper evaluates alternatives for compiling, linking, and executing one
 \gls{mini-app} \gls{caf} source code using the following technologies:
 \begin{itemize}
   \item \gls{mpi}~\cite{mpiforum2016mpi} and OpenSHMEM~\cite{openshmem2016} communication layers,
@@ -70,10 +70,7 @@ We show performance for two one-sided data access patterns:
   \item Puts: an image stores data in memory managed by
         another image without the receiving image's involvement.
 \end{enumerate}
-Fortran semantics necessitates that gets block.  Puts are non-blocking.
-
-%Our results will inform our future decisions around the choice of compiler, communication
-%layer, platform, and data access patterns.
+We also explore the performance and scalability of multi- versus many-core processors.
 
 \section{Methodology}
 \subsection{Physics and numerics}
@@ -105,7 +102,7 @@ The \gls{ncar} system is ``Cheyenne,'' an SGI ICE XA Cluster with \num{4032} com
 Cheyenne uses a Mellanox EDR Infiniband interconnect with a partial 9D Enhanced Hypercube single-plane topology.
 We compiled coarray-\gls{icar} on the \gls{nersc} systems using the Cray Fortran compiler version 8.6.0.  We compiled
 at \gls{ncar} using the \gls{gcc} version 6.3 Fortran front end, which uses the
-OpenCoarrays \gls{abi}~\cite{fanfarillo2014opencoarrays} to support \gls{caf}.  We tested two OpenCoarrays parallel runtime libraries:
+OpenCoarrays \gls{abi}~\cite{fanfarillo2014opencoarrays} to support \gls{caf}.  We tested two parallel runtime libraries that implement the OpenCoarrays \gls{abi}:
 \begin{enumerate}
   \item The default \gls{mpi} library using the SGI MPT \gls{mpi},
   \item The recently released OpenSHMEM library.
@@ -138,7 +135,7 @@ The GNU compiler was used on Cheyenne (Xeons). The Cray compiler was used on Edi
 To aid interpretation, the scaling results are reported as a fraction of the ideal scaling for each machine in the top left.
 These results show that the Cray compiler+system scales better than the gfortran+SGI system,
 with 75\% efficiency at >10k cores, while on Cheyenne, only 55\% of ideal was achieved.
-This also shows that the KNL system scales well out to large core counts (60\% ideal with \num{19200} cores),
+This also shows that the KNL system scales well out to large core counts (60\% of the ideal with \num{19200} cores),
 but that the total runtimes are significantly slower than the equivalent runtimes on Xeons (top right).
 The KNL performance might be improved in the future by implementing OpenMP threaded parallelism within a node.
 

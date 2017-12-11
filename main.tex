@@ -94,8 +94,8 @@
 We examine the scalability and performance of an open-source, \gls{caf} \gls{mini-app} that solves
 several parallel, numerical algorithms known to dominate the execution of \gls{icar}~\cite{gutmann2016intermediate} model,
 a package developed at the \gls{ncar}.
-The \gls{mini-app} uses standard Fortran 2008, including several Fortran 2008 implementations of the collective
-subroutines defined in the Committee Draft of the upcoming Fortran 2015 standard.  The ability of \gls{caf} to run atop various
+The \gls{mini-app} uses standard Fortran 2008, including one Fortran 2008 implementation of a collective
+subroutine defined in the Committee Draft of the upcoming Fortran 2018 standard.  The ability of \gls{caf} to run atop various
 communication layers and the increasing \gls{caf} compiler availability facilitated evaluating several compilers,
 runtime libraries and hardware platforms.  Results are presented for the GNU and Cray compilers, each of which offers
 different parallel runtime libraries employing one or more communication layers, including \gls{mpi}, OpenSHMEM, and proprietary
